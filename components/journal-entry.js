@@ -42,6 +42,11 @@ class JournalEntry extends HTMLElement {
                 margin-top: 5px;
             }
         </style>
+        <article class="entry">
+            <h2 class="entry-title"></h2>
+            <p class="entry-date"></p>
+            <p class="entry-content"></p>
+        </article>
         `;
 
     // create a shadow root for this web component
@@ -69,27 +74,9 @@ class JournalEntry extends HTMLElement {
     
     // CODE GOES HERE
 
-    let docHeader = document.createElement('h2');
-    docHeader.setAttribute('class', 'entry-title');
-    docHeader.innerHTML = entry.title;
-
-    let docDate = document.createElement('p');
-    docDate.setAttribute('class', 'entry-date');
-    docDate.innerHTML = entry.date;
-
-    let docContent = document.createElement('p');
-    docContent.setAttribute('class', 'entry-content');
-    docContent.innerHTML = entry.content;
-
-    let docArticle = document.createElement('article');
-    docArticle.setAttribute('class', 'entry');
-    docArticle.appendChild(docHeader);
-    docArticle.appendChild(docDate);
-    docArticle.appendChild(docContent);
-
-    if(!entry.image || !entry.audio) {
-      this.shadowRoot.appendChild(docArticle);
-    }
+    this.shadowRoot.querySelector('h2').innerHTML = entry.title;
+    this.shadowRoot.querySelectorAll('p')[0].innerHTML = entry.date;
+    this.shadowRoot.querySelectorAll('p')[1].innerHTML = entry.content;
 
     if (entry.image) {
       let entryImage;
@@ -106,12 +93,7 @@ class JournalEntry extends HTMLElement {
       entryImage.src = entry.image.src;
       entryImage.alt = entry.image.alt;
 
-      docArticle.appendChild(entryImage);
-
-      if(!entry.audio){
-        this.shadowRoot.appendChild(docArticle);
-      }
-
+      this.shadowRoot.querySelector('article').appendChild(entryImage);
 
       // CODE GOES HERE ^^^
 
@@ -140,9 +122,7 @@ class JournalEntry extends HTMLElement {
       entryAudio.src = entry.audio;
       entryAudio.controls = true;
 
-      docArticle.appendChild(entryAudio);
-
-      this.shadowRoot.appendChild(docArticle);
+      this.shadowRoot.querySelector('article').appendChild(entryAudio);
 
 
 
